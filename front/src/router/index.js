@@ -5,6 +5,7 @@ import Series from '../views/Series.vue'
 import MyList from '../views/MyList.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import FilmDetail from '../views/FilmDetail.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/my-list', component: MyList },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
+  { path: '/films/:id', component: FilmDetail },
 ]
 
 const router = createRouter({

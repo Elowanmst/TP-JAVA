@@ -1,6 +1,10 @@
+<script setup>
+import SerieList from '../components/SerieList.vue'
+</script>
+
 <template>
   <div class="page">
     <h1>Séries</h1>
-    <p>Liste des séries à venir...</p>
+    <SerieList />
   </div>
 </template>
