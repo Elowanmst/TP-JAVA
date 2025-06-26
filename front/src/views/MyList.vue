@@ -1,4 +1,5 @@
 <script setup>
+const defaultPoster = new URL('../assets/default-poster.jpeg', import.meta.url).href
 import { ref, onMounted } from "vue";
 
 const userId = localStorage.getItem("userId");
@@ -97,15 +98,10 @@ onMounted(fetchMyList);
                         </svg>
                      </button>
                      <img
-                        :src="
-                           film.imageUrl ||
-                           require('../assets/default-poster.jpeg')
-                        "
+                        :src="film.imageUrl || defaultPoster"
                         alt="Affiche"
-                        @error="
-                           (event) =>
-                              (event.target.src = require('../assets/default-poster.jpeg'))
-                        " />
+                        @error="event.target.src = defaultPoster"
+                     />
                      <div>
                         <h3>{{ film.titre }}</h3>
                         <p>{{ film.description }}</p>
@@ -147,11 +143,10 @@ onMounted(fetchMyList);
                         </svg>
                      </button>
                      <img
-                        :src="
-                           serie.imageUrl ||
-                           'https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg'
-                        "
-                        alt="Affiche" />
+                        :src="serie.imageUrl || defaultPoster"
+                        alt="Affiche"
+                        @error="event.target.src = defaultPoster"
+                     />
                      <div>
                         <h3>{{ serie.titre }}</h3>
                         <p>{{ serie.description }}</p>

@@ -1,4 +1,5 @@
 <script setup>
+const defaultPoster = new URL('../assets/default-poster.jpeg', import.meta.url).href
 import { ref, onMounted } from "vue";
 
 const series = ref([]);
@@ -105,12 +106,10 @@ defineExpose({ fetchSeries });
                </svg>
             </button>
             <img
-               :src="film.imageUrl || require('../assets/default-poster.jpeg')"
+               :src="serie.imageUrl || defaultPoster"
                alt="Affiche"
-               @error="
-                  (event) =>
-                     (event.target.src = require('../assets/default-poster.jpeg'))
-               " />
+               @error="event.target.src = defaultPoster"
+            />
             <div>
                <h3>{{ serie.titre }}</h3>
                <p>{{ serie.description }}</p>
