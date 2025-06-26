@@ -96,16 +96,6 @@ onMounted(fetchMyList);
                               points="12 2 15 9 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 9 12 2" />
                         </svg>
                      </button>
-                     <img
-                        :src="
-                           film.imageUrl ||
-                           require('../assets/default-poster.jpeg')
-                        "
-                        alt="Affiche"
-                        @error="
-                           (event) =>
-                              (event.target.src = require('../assets/default-poster.jpeg'))
-                        " />
                      <div>
                         <h3>{{ film.titre }}</h3>
                         <p>{{ film.description }}</p>

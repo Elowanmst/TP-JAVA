@@ -1,9 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const username = ref("");
 const router = useRouter();
+
+function updateUsername() {
+   username.value = localStorage.getItem("username") || "";
+}
 
 function logout() {
    localStorage.removeItem("userId");
@@ -13,7 +17,11 @@ function logout() {
 }
 
 onMounted(() => {
-   username.value = localStorage.getItem("username") || "";
+   updateUsername();
+   window.addEventListener("user-login", updateUsername);
+});
+onUnmounted(() => {
+   window.removeEventListener("user-login", updateUsername);
 });
 </script>
 

@@ -105,15 +105,6 @@ defineExpose({ fetchMovies });
                         fill="none" />
                   </svg>
                </button>
-               <img
-                  :src="
-                     film.imageUrl || require('../assets/default-poster.jpeg')
-                  "
-                  alt="Affiche"
-                  @error="
-                     (event) =>
-                        (event.target.src = require('../assets/default-poster.jpeg'))
-                  " />
                <div>
                   <h3>{{ movie.titre }}</h3>
                   <p>{{ movie.description }}</p>
