@@ -15,6 +15,7 @@ public class Film {
     private String titre;
     private String description;
     private int anneeSortie;
+    private String imageUrl;
 
     // Constructeurs
     public Film() {}
@@ -37,4 +38,7 @@ public class Film {
 
     public int getAnneeSortie() { return anneeSortie; }
     public void setAnneeSortie(int anneeSortie) { this.anneeSortie = anneeSortie; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

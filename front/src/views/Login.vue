@@ -1,6 +1,10 @@
+<script setup>
+import LoginForm from "../components/LoginForm.vue";
+</script>
+
 <template>
-  <div class="page">
-    <h1>Connexion</h1>
-    <p>Formulaire de connexion à venir...</p>
-  </div>
+   <div class="page">
+      <h1>Connexion</h1>
+      <LoginForm />
+   </div>
 </template>
