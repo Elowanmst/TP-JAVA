@@ -22,6 +22,7 @@ async function login() {
       const user = await res.json();
       localStorage.setItem("userId", user.id);
       localStorage.setItem("username", user.username);
+      window.dispatchEvent(new Event("user-login"));
       router.push("/"); // Redirection vers l'accueil
    } catch (e) {
       error.value = e.message;
