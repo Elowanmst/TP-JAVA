@@ -1,4 +1,5 @@
 <script setup>
+const defaultPoster = new URL('../assets/default-poster.jpeg', import.meta.url).href
 import { ref, onMounted } from "vue";
 
 const movies = ref([]);
@@ -105,6 +106,11 @@ defineExpose({ fetchMovies });
                         fill="none" />
                   </svg>
                </button>
+               <img
+                  :src="movie.imageUrl || defaultPoster"
+                  alt="Affiche"
+                  @error="event.target.src = defaultPoster"
+               />
                <div>
                   <h3>{{ movie.titre }}</h3>
                   <p>{{ movie.description }}</p>
