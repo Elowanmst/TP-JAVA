@@ -7,6 +7,9 @@ const films = ref([]);
 const series = ref([]);
 const loading = ref(true);
 const error = ref("");
+const importError = ref("");
+const importSuccess = ref("");
+const fileInput = ref(null);
 
 async function fetchMyList() {
    loading.value = true;
@@ -55,6 +58,49 @@ async function removeFromMySerieList(serieId) {
    series.value = series.value.filter((s) => s.id !== serieId);
 }
 
+// Exporter la liste
+async function exportList() {
+   if (!userId) return;
+   try {
+      const res = await fetch(`http://localhost:8080/api/utilisateurs/${userId}/export`);
+      if (!res.ok) throw new Error("Erreur lors de l'export");
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ma-liste.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+   } catch (e) {
+      error.value = e.message;
+   }
+}
+
+// Importer la liste
+async function importList(event) {
+   importError.value = "";
+   importSuccess.value = "";
+   const file = event.target.files[0];
+   if (!file || !userId) return;
+   try {
+      const arrayBuffer = await file.arrayBuffer();
+      const res = await fetch(`http://localhost:8080/api/utilisateurs/${userId}/import`, {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: arrayBuffer,
+      });
+      if (!res.ok) throw new Error("Erreur lors de l'import");
+      importSuccess.value = "Import réussi !";
+      await fetchMyList();
+   } catch (e) {
+      importError.value = e.message;
+   } finally {
+      if (fileInput.value) fileInput.value.value = "";
+   }
+}
+
 onMounted(fetchMyList);
 </script>
 
@@ -65,6 +111,21 @@ onMounted(fetchMyList);
          <p>Connectez-vous pour voir votre liste personnalisée.</p>
       </div>
       <div v-else>
+         <div class="import-export-bar">
+            <button @click="exportList">Exporter ma liste</button>
+            <label class="import-label">
+               Importer une liste
+               <input
+                  type="file"
+                  accept="application/json"
+                  style="display: none"
+                  ref="fileInput"
+                  @change="importList"
+               />
+            </label>
+         </div>
+         <div v-if="importError" style="color: red">{{ importError }}</div>
+         <div v-if="importSuccess" style="color: green">{{ importSuccess }}</div>
          <div v-if="loading">Chargement...</div>
          <div v-else-if="error" style="color: red">{{ error }}</div>
          <div v-else>
@@ -165,6 +226,24 @@ onMounted(fetchMyList);
 <style scoped>
 .page {
    margin-top: 100px;
+}
+.import-export-bar {
+   display: flex;
+   gap: 1rem;
+   margin-bottom: 1.5rem;
+}
+.import-label {
+   background: #222;
+   color: #fff;
+   border-radius: 6px;
+   padding: 0.5em 1.2em;
+   cursor: pointer;
+   font-size: 1rem;
+   display: inline-block;
+   transition: background 0.2s;
+}
+.import-label:hover {
+   background: #444;
 }
 .movies {
    display: flex;
